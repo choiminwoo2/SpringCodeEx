@@ -1,1 +1,1 @@
-# SpringCodeEx
+# 스프링 가이드 따라하기
