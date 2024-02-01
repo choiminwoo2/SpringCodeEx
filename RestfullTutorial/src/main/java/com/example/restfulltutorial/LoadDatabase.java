@@ -8,13 +8,14 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class LoadDatabase {
+
     private static final Logger logger = LoggerFactory.getLogger(LoadDatabase.class);
 
     @Bean
-    CommandLineRunner initDatabase(EmployeeRepository repository){
+    CommandLineRunner initDatabase(EmployeeRepository repository) {
         return args -> {
-          logger.info("Preloading " + repository.save(new Employee("Bob", "manager")));
-          logger.info("Preloading " + repository.save(new Employee("Lan", "staff")));
+            logger.info("Preloading " + repository.save(new Employee("Bob", "manager")));
+            logger.info("Preloading " + repository.save(new Employee("Lan", "staff")));
         };
     }
 

@@ -33,14 +33,14 @@ public class EmployeeTest {
     ObjectMapper mapper;
 
     @BeforeEach
-    void setup(){
+    void setup() {
         repository.save(new Employee("test1", "test1"));
         repository.save(new Employee("test2", "test2"));
     }
 
 
     @Test
-    @DisplayName("직원 리스트를 요청.")
+    @DisplayName("모든 직원 검색")
     void getList() throws Exception {
         String expectByName = "$.[?(@.name == '%s')]";
         String expectByRole = "$.[?(@.role == '%s')]";
@@ -55,8 +55,8 @@ public class EmployeeTest {
     }
 
     @Test
-    @DisplayName("한명의 직원을 요청.")
-    void getEmployeeById() throws Exception{
+    @DisplayName("직원 검색")
+    void getEmployeeById() throws Exception {
         mvc.perform(get("/employees/{id}", 3))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -65,17 +65,21 @@ public class EmployeeTest {
     }
 
     @Test
-    @DisplayName("한명의 직원을 요청에 대한 에러")
-    void errorEmployeeById() throws Exception{
+    @DisplayName("직원 검색 요청에 대한 에러")
+    void errorEmployeeById() throws Exception {
         mvc.perform(get("/employees/{id}", 99999999))
                 .andDo(print())
                 .andExpect(status().isNotFound())
-                .andExpect(result -> {result.getResolvedException().getClass().isAssignableFrom(EmployeeNotFoundException.class);});
+                .andExpect(result -> { result.getResolvedException()
+                            .getClass()
+                            .isAssignableFrom(EmployeeNotFoundException.class);
+                });
     }
+
     @Test
     @DisplayName("직원 데이터를 수정.")
-    void replaceEmployee() throws Exception{
-        Map<String,String> data = new HashMap<>();
+    void replaceEmployee() throws Exception {
+        Map<String, String> data = new HashMap<>();
 
         data.put("role", "test4");
         data.put("name", "test4");
@@ -90,9 +94,9 @@ public class EmployeeTest {
     }
 
     @Test
-    @DisplayName("해당 직원 데이터가 존재하지 않는다면 저장")
-    void notReplaceEmployeeIsAdd() throws Exception{
-        Map<String,String> data = new HashMap<>();
+    @DisplayName("직원 데이터가 존재하지 않는다면 저장")
+    void notReplaceEmployeeIsAdd() throws Exception {
+        Map<String, String> data = new HashMap<>();
 
         data.put("role", "test5");
         data.put("name", "test5");
@@ -107,11 +111,10 @@ public class EmployeeTest {
     }
 
 
-
     @Test
-    @DisplayName("직원 데이터 저장을 요청.")
-    void saveEmployee() throws Exception{
-        Map<String,String> data = new HashMap<>();
+    @DisplayName("직원 데이터 저장")
+    void saveEmployee() throws Exception {
+        Map<String, String> data = new HashMap<>();
 
         data.put("role", "test6");
         data.put("name", "test6");
@@ -127,7 +130,7 @@ public class EmployeeTest {
 
     @Test
     @DisplayName("직원 데이터 삭제를 요청.")
-    void removeEmployee() throws Exception{
+    void removeEmployee() throws Exception {
         mvc.perform(delete("/employees/{id}", 4))
                 .andDo(print())
                 .andExpect(status().isOk());
