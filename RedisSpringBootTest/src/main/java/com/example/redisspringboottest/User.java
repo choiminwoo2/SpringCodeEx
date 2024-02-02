@@ -7,7 +7,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
 @RedisHash("user")
-public class User implements Serializable {
+public class User {
     @Id
     UUID uuid;
     String name;
