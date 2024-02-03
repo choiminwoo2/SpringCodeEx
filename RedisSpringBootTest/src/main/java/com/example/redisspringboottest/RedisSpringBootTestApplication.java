@@ -10,15 +10,15 @@ import org.springframework.context.annotation.Profile;
 
 @SpringBootApplication
 public class RedisSpringBootTestApplication {
-    @Bean
-    CommandLineRunner runner(UserRepository repository){
-        return args -> {
-            UUID uud = UUID.randomUUID();
-            User user = new User(uud,"name");
-            repository.save(user);
-
-        };
-    }
+//    @Bean
+//    CommandLineRunner runner(UserRepository repository){
+//        return args -> {
+//            UUID uud = UUID.randomUUID();
+//            User user = new User(uud,"name");
+//            repository.save(user);
+//
+//        };
+//    }
 
     public static void main(String[] args) {
       SpringApplication.run(RedisSpringBootTestApplication.class, args);

@@ -11,13 +11,12 @@ import redis.embedded.RedisServer;
 import redis.embedded.util.Architecture;
 import redis.embedded.util.OS;
 
-
-@TestConfiguration
+//@TestConfiguration
 public class TestRedisConfiguration {
 
     private static RedisServer redisServer;
 
-    public TestRedisConfiguration(RedisProperties redisProperties) throws IOException {
+    public TestRedisConfiguration(RedisProperties redisProperties)  {
         this.redisServer = new RedisServer(/*
         운영 체제별 RedisExecProvider로 설정할 수 있다.
         getRedisPath()
