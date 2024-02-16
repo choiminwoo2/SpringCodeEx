@@ -11,6 +11,8 @@
     <title>Title</title>
 </head>
 <body>
-
+    <form action="/todo/modify" method="post">
+        <input name="post"/>
+    </form>
 </body>
 </html>

@@ -11,6 +11,8 @@
     <title>Title</title>
 </head>
 <body>
-
+    <P>list Pages</P>
+    ${list}
+    <button type="submit">삭제</button>
 </body>
 </html>

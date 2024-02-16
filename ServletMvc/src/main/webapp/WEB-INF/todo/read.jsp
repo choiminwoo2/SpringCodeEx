@@ -11,6 +11,6 @@
     <title>Title</title>
 </head>
 <body>
-
+    Read페이지입니다.
 </body>
 </html>
