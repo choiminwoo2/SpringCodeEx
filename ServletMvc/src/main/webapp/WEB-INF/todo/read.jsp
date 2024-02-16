@@ -1,3 +1,4 @@
+<jsp:useBean id="dto" scope="request" type="org.zerock.servletmvc.todo.dto.TodoDTO"/>
 <%--
   Created by IntelliJ IDEA.
   User: wjrdj
@@ -11,6 +12,9 @@
     <title>Title</title>
 </head>
 <body>
-    Read페이지입니다.
+    <div>${dto.tno}</div>
+    <div>${dto.title}</div>
+    <div>${dto.dueDate}</div>
+    <div>${dto.finished}</div>
 </body>
 </html>

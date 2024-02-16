@@ -1,5 +1,8 @@
 package org.zerock.servletmvc.todo;
 
+import org.zerock.servletmvc.todo.dto.TodoDTO;
+import org.zerock.servletmvc.todo.service.TodoService;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,6 +15,12 @@ public class TodoReadController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         System.out.println("[TodoReadController]");
+
+        Long tno = Long.parseLong(req.getParameter("tno"));
+        TodoDTO dto = TodoService.INSTANCE.get(tno);
+
+        req.setAttribute("dto", dto);
+
         req.getRequestDispatcher("/WEB-INF/todo/read.jsp")
                 .forward(req,resp);
     }
