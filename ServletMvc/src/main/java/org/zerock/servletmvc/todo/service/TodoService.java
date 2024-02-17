@@ -9,29 +9,30 @@ import java.util.stream.IntStream;
 
 public enum TodoService {
     INSTANCE;
-    public void register(TodoDTO todoDTO){
+
+    public void register(TodoDTO todoDTO) {
         System.out.println("Debug" + todoDTO);
     }
 
-    public List<TodoDTO> getList(){
-        List<TodoDTO> todoDTOS = IntStream.range(0,10).mapToObj(i -> {
-            TodoDTO dto = new TodoDTO();
-            dto.setTno((long)i);
-            dto.setTitle("Todo.." + i);
-            dto.setDueDate(LocalDate.now());
+    public List<TodoDTO> getList() {
+
+        return IntStream.range(0, 10).mapToObj(i -> {
+            TodoDTO dto = TodoDTO.builder()
+                    .tno((long) i)
+                    .title("Todo.." + i)
+                    .dueDate(LocalDate.now())
+                    .build();
 
             return dto;
         }).collect(Collectors.toList());
-
-        return todoDTOS;
     }
 
-    public TodoDTO get(Long tno){
-        TodoDTO dto = new TodoDTO();
-        dto.setTno(tno);
-        dto.setTitle("Sample Todo");
-        dto.setDueDate(LocalDate.now());
-        dto.setFinished(true);
-        return dto;
+    public TodoDTO get(Long tno) {
+        return TodoDTO.builder()
+                .tno(tno)
+                .title("Sample Todo")
+                .dueDate(LocalDate.now())
+                .finished(true)
+                .build();
     }
 }
