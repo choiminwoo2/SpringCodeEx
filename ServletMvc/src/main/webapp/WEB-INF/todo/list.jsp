@@ -12,12 +12,21 @@
     <title>Title</title>
 </head>
 <body>
-    <P>list Pages</P>
-    <ul>
-        <v:forEach var="todo" items="${list}">
-            <li>${todo}</li>
-        </v:forEach>
-    </ul>
-    <button type="submit">삭제</button>
+<P>list Pages</P>
+<ul>
+    <v:forEach var="todo" items="${list}">
+        <li>
+            <span><a href="/todo/read?tno=${todo.tno}">${todo.tno}</a></span>
+            <span>${todo.title}</span>
+            <span>${todo.dueDate}</span>
+            <span>${todo.finished ? "DONE" : "NOT YET"}</span>
+        </li>
+    </v:forEach>
+</ul>
+<div>
+    <a href="/todo/register">
+        <button type="button">등록</button>
+    </a>
+</div>
 </body>
 </html>

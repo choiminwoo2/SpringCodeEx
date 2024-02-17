@@ -11,8 +11,16 @@
     <title>Title</title>
 </head>
 <body>
-    <form action="/todo/register" method="post">
-        <button type="submit">등록 처리</button>
-    </form>
+<form action="/todo/register" method="post">
+    <div>
+        <input type="text" name="title" placeholder="INSERT TITLE"/>
+    </div>
+    <div>
+        <input type="date" name="dueDate"/>
+    </div>
+    <div>
+        <button type="submit">등록</button>
+    </div>
+</form>
 </body>
 </html>
