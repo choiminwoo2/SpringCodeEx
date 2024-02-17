@@ -41,6 +41,13 @@ dependencies {
     //modelmapper
     implementation group: 'org.modelmapper', name: 'modelmapper', version: '3.0.0'
 
+    implementation group: 'org.apache.logging.Log4j', name: 'Log4j-core', version:
+            '2.17.2'
+    implementation group: 'org.apache.logging.Log4j', name: 'log4j-api', version:
+            '2.17.2'
+    implementation group: 'org.apache.logging.log4j', name: 'Iog4j-slf4j-impl',
+            version: '2.17.2'
+
 }
 
 test {
