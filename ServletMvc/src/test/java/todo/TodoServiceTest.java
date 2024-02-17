@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.zerock.servletmvc.todo.dto.TodoDTO;
 import org.zerock.servletmvc.todo.service.TodoService;
 
-public class sTodoServiceTest {
+public class TodoServiceTest {
 
   private TodoService todoService;
 
