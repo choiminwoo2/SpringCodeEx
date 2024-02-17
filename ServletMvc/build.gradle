@@ -38,7 +38,8 @@ dependencies {
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.30'
     //Hikari
     implementation group: 'com.zaxxer', name: 'HikariCP', version: '5.0.0'
-
+    //modelmapper
+    implementation group: 'org.modelmapper', name: 'modelmapper', version: '3.0.0'
 
 }
 
