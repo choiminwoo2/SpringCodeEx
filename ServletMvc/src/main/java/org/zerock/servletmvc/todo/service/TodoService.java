@@ -5,12 +5,14 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.zerock.servletmvc.todo.dao.TodoDAO;
 import org.zerock.servletmvc.todo.domain.TodoEntity;
 import org.zerock.servletmvc.todo.dto.TodoDTO;
 import org.zerock.servletmvc.util.MapperUtil;
 
+@Log4j2
 public enum TodoService {
   INSTANCE;
 
@@ -24,7 +26,7 @@ public enum TodoService {
 
   public void register(TodoDTO todoDTO) throws SQLException {
     TodoEntity entity = modelMapper.map(todoDTO, TodoEntity.class);
-
+    log.info(entity);
     dao.insert(entity);
 
   }
