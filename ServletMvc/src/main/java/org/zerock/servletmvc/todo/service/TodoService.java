@@ -1,10 +1,8 @@
 package org.zerock.servletmvc.todo.service;
 
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.zerock.servletmvc.todo.dao.TodoDAO;
@@ -31,25 +29,26 @@ public enum TodoService {
 
   }
 
-  public List<TodoDTO> getList() {
-
-    return IntStream.range(0, 10).mapToObj(i -> {
-      TodoDTO dto = TodoDTO.builder()
-          .tno((long) i)
-          .title("Todo.." + i)
-          .dueDate(LocalDate.now())
-          .build();
-
-      return dto;
-    }).collect(Collectors.toList());
+  public List<TodoDTO> getList() throws SQLException {
+    List<TodoEntity> list = dao.selectAll();
+    return list.stream()
+        .map(entity -> modelMapper.map(entity, TodoDTO.class))
+        .collect(Collectors.toList());
   }
 
-  public TodoDTO get(Long tno) {
-    return TodoDTO.builder()
-        .tno(tno)
-        .title("Sample Todo")
-        .dueDate(LocalDate.now())
-        .finished(true)
-        .build();
+  public TodoDTO get(Long tno) throws SQLException {
+    return modelMapper.map(dao.selectOne(tno), TodoDTO.class);
+  }
+
+  public void modify(TodoDTO dto) throws SQLException {
+    log.info("update Todo--------");
+    dao.updateOne(modelMapper.map(dto, TodoEntity.class));
+    log.info("update SUCCESS");
+  }
+
+  public void remove(Long tno) throws SQLException {
+    log.info("remove Todo--------");
+    dao.deleteOne(tno);
+    log.info("remove SUCCESS");
   }
 }
