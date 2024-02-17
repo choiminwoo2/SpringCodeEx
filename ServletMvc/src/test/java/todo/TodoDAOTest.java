@@ -34,10 +34,11 @@ public class TodoDAOTest {
 
   @Test
   void insert() throws Exception {
-    TodoEntity todo = TodoEntity.builder()
-        .title("Todo Sample Title")
-        .dueDate(LocalDate.of(2021, 12, 31))
-        .build();
+    TodoEntity todo =
+        TodoEntity.builder()
+            .title("Todo Sample Title")
+            .dueDate(LocalDate.of(2021, 12, 31))
+            .build();
     todoDAO.insert(todo);
 
   }
