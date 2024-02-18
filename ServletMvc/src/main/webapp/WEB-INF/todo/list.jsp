@@ -13,6 +13,8 @@
 </head>
 <body>
 <P>list Pages</P>
+<h2>${loginInfo}</h2>
+<h3>${loginInfo.mname}</h3>
 <ul>
     <v:forEach var="todo" items="${list}">
         <li>
@@ -23,10 +25,14 @@
         </li>
     </v:forEach>
 </ul>
+<form action="/logout" method="post">
+    <button>LOGOUT</button>
+</form>
 <div>
     <a href="/todo/register">
         <button type="button">등록</button>
     </a>
 </div>
+
 </body>
 </html>
