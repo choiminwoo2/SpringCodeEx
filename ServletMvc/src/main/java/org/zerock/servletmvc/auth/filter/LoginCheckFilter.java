@@ -34,23 +34,21 @@ public class LoginCheckFilter implements Filter {
             filterChain.doFilter(req, res);
             return;
         }
-        Cookie loginCookie = findCookie(req.getCookies(), "remember-me");
 
-        if (loginCookie == null) {
+        Cookie cookie = findCookie(req.getCookies(), "remember-me");
+
+        if (cookie == null) {
             res.sendRedirect("/login");
-            return;
         }
-        log.info("쿠키만 존재합니다....");
+
+        String uuid = cookie.getValue();
         try {
-            String uuid = loginCookie.getValue();
             MemberDTO memberDTO = MemberService.INSTANCE.findByUuid(uuid);
             if (memberDTO == null) {
-                throw new Exception("쿠키 값을 찾을 수 없습니다");
+                throw new Exception("쿠키가 유효하지 않음.");
             }
-
             session.setAttribute("loginInfo", memberDTO);
-            filterChain.doFilter(servletRequest, servletResponse);
-
+            filterChain.doFilter(req, res);
         } catch (Exception e) {
             e.printStackTrace();
             res.sendRedirect("/login");
@@ -64,9 +62,7 @@ public class LoginCheckFilter implements Filter {
             return null;
         }
 
-        Optional<Cookie> result = Arrays.stream(cookies)
-            .filter(cookie -> cookie.getName().equals(name))
-            .findFirst();
+        Optional<Cookie> result = Arrays.stream(cookies).filter(cookie -> cookie.getName().equals(name)).findFirst();
         return result.isPresent() ? result.get() : null;
     }
 }
