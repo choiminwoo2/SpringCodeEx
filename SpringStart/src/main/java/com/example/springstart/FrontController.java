@@ -11,9 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/hello")
 public class FrontController {
 
-
     private final HelloService helloService;
-
 
     public FrontController(@Qualifier("helloDecorator") HelloService helloService) {
 

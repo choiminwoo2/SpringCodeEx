@@ -9,6 +9,7 @@ public class HelloControllerTest {
 
     @Test
     void helloController() {
+
         FrontController frontController = new FrontController(name -> name);
 
         String ret = frontController.hello("Test");

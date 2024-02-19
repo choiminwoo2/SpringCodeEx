@@ -11,10 +11,9 @@ import org.springframework.web.servlet.DispatcherServlet;
 @MySpringBootApplication
 public class SpringStartApplication {
 
-		public static void main(String[] args) {
-				MySpringApplication.run(SpringStartApplication.class, args);
-		}
+    public static void main(String[] args) {
 
-
+        MySpringApplication.run(SpringStartApplication.class, args);
+    }
 
 }

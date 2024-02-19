@@ -16,16 +16,18 @@ import org.springframework.http.ResponseEntity;
 @SpringBootTest(classes = {SpringStartApplication.class})
 public class HelloApiIntegration {
 
-		TestRestTemplate testRestTemplate = new TestRestTemplate();
-		@Test
-		void helloApi(){
-				final String BASE_URL = "http://localhost:8080/hello?name={name}";
-				ResponseEntity<String> res = testRestTemplate.getForEntity(BASE_URL, String.class, "Spring");
+    TestRestTemplate testRestTemplate = new TestRestTemplate();
 
-				assertEquals(res.getStatusCode(), HttpStatus.OK);
-				assertEquals(res.getHeaders().getFirst(HttpHeaders.CONTENT_TYPE).startsWith(MediaType.TEXT_PLAIN_VALUE), true);
-				assertEquals(res.getBody(), "*HelloSpring*");
+    @Test
+    void helloApi() {
 
-		}
+        final String BASE_URL = "http://localhost:8080/hello?name={name}";
+        ResponseEntity<String> res = testRestTemplate.getForEntity(BASE_URL, String.class, "Spring");
+
+        assertEquals(res.getStatusCode(), HttpStatus.OK);
+        assertEquals(res.getHeaders().getFirst(HttpHeaders.CONTENT_TYPE).startsWith(MediaType.TEXT_PLAIN_VALUE), true);
+        assertEquals(res.getBody(), "*HelloSpring*");
+
+    }
 
 }
