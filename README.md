@@ -7,6 +7,7 @@
 * [x] 스프링 레스트풀을 이용하여 Client와 Server의 기본적인 통신 이해해보기
 * [x] RestTemplate 사용하여 요청과 응답해보기
 * [x] MvcMock 테스트 해보기
+* [x] TestRestTemplate로 테스트 해보기
 ## SpringRedis
 * [ ] 레디스를 활용한 캐싱과 송신과 수신 이해하기.
 * [x] 토픽을 만들어보고 채널별 메세지 송수신 해보기 - 완료
