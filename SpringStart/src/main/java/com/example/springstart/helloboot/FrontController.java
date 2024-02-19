@@ -1,4 +1,4 @@
-package com.example.springstart;
+package com.example.springstart.helloboot;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;

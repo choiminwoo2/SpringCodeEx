@@ -2,7 +2,8 @@ package com.example.springstart;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.jupiter.api.Assertions;
+import com.example.springstart.helloboot.HelloDecorator;
+import com.example.springstart.helloboot.SimpleHelloService;
 import org.junit.jupiter.api.Test;
 
 public class HelloServiceTest {

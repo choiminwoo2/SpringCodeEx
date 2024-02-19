@@ -2,7 +2,7 @@ package com.example.springstart;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.jupiter.api.Assertions;
+import com.example.springstart.helloboot.FrontController;
 import org.junit.jupiter.api.Test;
 
 public class HelloControllerTest {
