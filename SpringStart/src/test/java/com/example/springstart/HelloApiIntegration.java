@@ -13,20 +13,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = {SpringStartApplication.class})
+@SpringBootTest(classes = {SpringStartApplication.class})
 public class HelloApiIntegration {
 
-		@LocalServerPort
-		private int port;
 		TestRestTemplate testRestTemplate = new TestRestTemplate();
 		@Test
 		void helloApi(){
-				final String BASE_URL = "http://localhost:" + port + "/hello?name={name}";
+				final String BASE_URL = "http://localhost:8080/hello?name={name}";
 				ResponseEntity<String> res = testRestTemplate.getForEntity(BASE_URL, String.class, "Spring");
 
 				assertEquals(res.getStatusCode(), HttpStatus.OK);
 				assertEquals(res.getHeaders().getFirst(HttpHeaders.CONTENT_TYPE).startsWith(MediaType.TEXT_PLAIN_VALUE), true);
-				assertEquals(res.getBody(), "HelloSpring");
+				assertEquals(res.getBody(), "*HelloSpring*");
 
 		}
 

@@ -1,8 +1,10 @@
 package com.example.springstart;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
+@Qualifier("simpleHelloService")
 public class SimpleHelloService implements HelloService{
 
 		@Override
