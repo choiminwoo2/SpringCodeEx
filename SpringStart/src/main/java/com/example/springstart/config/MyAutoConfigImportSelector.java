@@ -1,9 +1,7 @@
 package com.example.springstart.config;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.boot.context.annotation.ImportCandidates;
 import org.springframework.context.annotation.DeferredImportSelector;
 import org.springframework.core.type.AnnotationMetadata;
