@@ -3,6 +3,7 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns:sc="http://www.springframework.org/schema/context"
   xmlns:mb="http://mybatis.org/schema/mybatis-spring"
+  xmlns:cs="http://www.springframework.org/schema/context"
   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd">
   <sc:component-scan base-package="org.ruu.springmvcxml" />
 
@@ -28,6 +29,6 @@
     <property name="dataSource" ref="dataSource" />
     <property name="mapperLocations" value="classpath*:/mappers/**/*.xml" />
   </bean>
-
-  <mb:scan base-package="org.ruu.springmvcxml.sample.mapper" />
+  <cs:component-scan base-package="org.ruu.springmvcxml.config" />
+  <mb:scan base-package="org.ruu.springmvcxml.mapper" />
 </beans>
