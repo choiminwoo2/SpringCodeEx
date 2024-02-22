@@ -1,4 +1,4 @@
-package org.ruu.springmvcxml.sample.mapper;
+package org.ruu.springmvcxml.mapper;
 
 
 import org.springframework.stereotype.Repository;
