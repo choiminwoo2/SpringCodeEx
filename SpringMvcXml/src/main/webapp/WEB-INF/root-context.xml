@@ -30,5 +30,6 @@
     <property name="mapperLocations" value="classpath*:/mappers/**/*.xml" />
   </bean>
   <cs:component-scan base-package="org.ruu.springmvcxml.config" />
+  <sc:component-scan base-package="org.ruu.springmvcxml.service" />
   <mb:scan base-package="org.ruu.springmvcxml.mapper" />
 </beans>

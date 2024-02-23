@@ -1,27 +1,23 @@
-package org.ruu.springmvcxml.dto;
+package org.ruu.springmvcxml.domain;
 
 
 import java.time.LocalDate;
-import javax.validation.constraints.Future;
-import javax.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
-@Data
-@Builder
+@Getter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class TodoDTO {
+@Builder
+public class TodoEntity {
 
     private Long tno;
-    @NotEmpty
     private String title;
-    @Future
     private LocalDate dueDate;
-
-    private boolean finished;
-    @NotEmpty
     private String writer;
+    private boolean finished;
 }

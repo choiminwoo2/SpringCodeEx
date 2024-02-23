@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration status="info">
+<configuration status="info" charset="UTF-8">
   <Appenders>
     <!-- 콜솔 -->
     <Console name="console" target="SYSTEM_OUT">
@@ -12,6 +12,9 @@
     </logger>
     <logger name="org.ruu" level="info" additivity="false">
       <appender-ref ref="console"/>
+    </logger>
+    <logger name="org.ruu.springmvcxml.mapper" level="TRACE" additivity="false">
+      <appender-ref ref="console" />
     </logger>
     <root level="info" additivity="false">
       <AppenderRef ref="console"/>

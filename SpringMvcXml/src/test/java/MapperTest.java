@@ -1,6 +1,8 @@
+import java.time.LocalDate;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.ruu.springmvcxml.domain.TodoEntity;
 import org.ruu.springmvcxml.mapper.TimeMapper2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -19,4 +21,5 @@ public class MapperTest {
     void testGetTime() throws Exception {
         log.info(timeMapper2.getNow());
     }
+
 }
