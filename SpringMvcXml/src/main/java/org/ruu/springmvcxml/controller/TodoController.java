@@ -3,6 +3,7 @@ package org.ruu.springmvcxml.controller;
 import com.sun.tools.javac.comp.Todo;
 import javax.validation.Valid;
 import lombok.extern.log4j.Log4j2;
+import org.ruu.springmvcxml.dto.PageRequestDTO;
 import org.ruu.springmvcxml.dto.TodoDTO;
 import org.ruu.springmvcxml.service.TodoService;
 import org.ruu.springmvcxml.service.TodoServiceImpl;
@@ -26,14 +27,6 @@ public class TodoController {
     public TodoController(TodoService todoService) {
 
         this.todoService = todoService;
-    }
-
-    @GetMapping("/list")
-    public void list(Model model) {
-
-        log.info("todo List");
-
-        model.addAttribute("dtoList", todoService.getAll());
     }
 
     @GetMapping("/register")
@@ -63,6 +56,14 @@ public class TodoController {
         TodoDTO dto = todoService.getTodoByTno(tno);
         model.addAttribute("dto", dto );
     }
+    @GetMapping("/list")
+    public void list(@Valid PageRequestDTO pageRequestDTO, BindingResult bindingResult, Model model){
+        log.info(pageRequestDTO);
 
+        if(bindingResult.hasErrors()){
+            pageRequestDTO = PageRequestDTO.builder().build();
+        }
+        model.addAttribute("responseDTO", todoService.getList(pageRequestDTO));
+    }
 
 }

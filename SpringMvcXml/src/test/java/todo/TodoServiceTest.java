@@ -11,6 +11,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.ruu.springmvcxml.domain.TodoEntity;
+import org.ruu.springmvcxml.dto.PageRequestDTO;
+import org.ruu.springmvcxml.dto.PageResponseDTO;
 import org.ruu.springmvcxml.dto.TodoDTO;
 import org.ruu.springmvcxml.mapper.TodoMapper;
 import org.ruu.springmvcxml.service.TodoService;
@@ -51,6 +53,21 @@ public class TodoServiceTest {
         TodoDTO dto = todoService.getTodoByTno(1L);
         assertNotNull(dto);
         assertEquals(dto.getTno(), 1L);
+    }
+
+    @Test
+    void pagingTest(){
+
+        PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
+            .page(1)
+            .size(10)
+            .build();
+        PageResponseDTO<TodoDTO> responseDTO = todoService.getList(pageRequestDTO);
+
+        log.info(responseDTO);
+
+        responseDTO.getDtoList().forEach(todoDTO -> log.info(todoDTO));
+
     }
 
 }

@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.ruu.springmvcxml.domain.TodoEntity;
+import org.ruu.springmvcxml.dto.PageRequestDTO;
+import org.ruu.springmvcxml.dto.PageResponseDTO;
 import org.ruu.springmvcxml.dto.TodoDTO;
 import org.ruu.springmvcxml.mapper.TodoMapper;
 import org.springframework.stereotype.Service;
@@ -13,12 +15,13 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 @Log4j2
-public class TodoServiceImpl implements TodoService{
+public class TodoServiceImpl implements TodoService {
 
     private final TodoMapper todoMapper;
 
     @Override
     public void register(TodoDTO todoDTO) {
+
         log.info("[Service] insertService ");
 
         TodoEntity todoEntity = TodoEntity.builder()
@@ -33,6 +36,7 @@ public class TodoServiceImpl implements TodoService{
 
     @Override
     public List<TodoDTO> getAll() {
+
         List<TodoDTO> dtoList = todoMapper.selectAll().stream()
             .map(entity -> TodoDTO.builder()
                 .tno(entity.getTno())
@@ -47,6 +51,7 @@ public class TodoServiceImpl implements TodoService{
 
     @Override
     public TodoDTO getTodoByTno(Long tno) {
+
         TodoEntity entity = todoMapper.selectOne(tno);
         return TodoDTO.builder()
             .tno(entity.getTno())
@@ -55,5 +60,29 @@ public class TodoServiceImpl implements TodoService{
             .title(entity.getTitle())
             .dueDate(entity.getDueDate())
             .build();
+    }
+
+    @Override
+    public PageResponseDTO<TodoDTO> getList(PageRequestDTO requestDTO) {
+
+        List<TodoEntity> entities = todoMapper.selectList(requestDTO);
+        List<TodoDTO> dtoList = entities.stream()
+            .map(todo -> TodoDTO.builder()
+                .tno(todo.getTno())
+                .writer(todo.getWriter())
+                .dueDate(todo.getDueDate())
+                .finished(todo.isFinished())
+                .title(todo.getTitle())
+                .build()
+            ).collect(Collectors.toList());
+        int total = todoMapper.getCount(requestDTO);
+
+        PageResponseDTO<TodoDTO> pageResponseDTO = PageResponseDTO.<TodoDTO>withAll().
+            dtoList(dtoList)
+            .pageRequestDTO(requestDTO)
+            .total(total)
+            .build();
+
+        return pageResponseDTO;
     }
 }
