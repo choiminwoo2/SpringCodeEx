@@ -5,9 +5,15 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@Getter
 @Entity
-public class Board extends TimeCheckerBaseEntity{
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Board extends BaseEntity {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -21,4 +27,13 @@ public class Board extends TimeCheckerBaseEntity{
 
     @Column(length = 50, nullable = false)
     private String writer;
+
+    @Builder
+    public Board(Long id, String title, String content, String writer) {
+
+        this.id = id;
+        this.title = title;
+        this.content = content;
+        this.writer = writer;
+    }
 }
