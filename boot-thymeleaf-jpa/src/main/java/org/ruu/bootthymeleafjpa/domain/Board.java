@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,12 +13,13 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
+@Table(name = "board")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Board extends BaseEntity {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    Long id;
+    Long bno;
 
     @Column(length = 500, nullable = false)
     private String title;
@@ -29,11 +31,16 @@ public class Board extends BaseEntity {
     private String writer;
 
     @Builder
-    public Board(Long id, String title, String content, String writer) {
+    public Board(Long bno, String title, String content, String writer) {
 
-        this.id = id;
+        this.bno = bno;
         this.title = title;
         this.content = content;
         this.writer = writer;
+    }
+
+    public void change(String title, String content){
+        this.title = title;
+        this.content = content;
     }
 }
