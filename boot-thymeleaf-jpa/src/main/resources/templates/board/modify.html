@@ -83,6 +83,15 @@
     formObj.method = 'post';
     formObj.submit();
   }, false)
+
+  document.querySelector(".removeBtn").addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    formObj.action = `/board/remove`;
+    formObj.post = 'post';
+    formObj.submit();
+  }, false)
 </script>
 </body>
 </html>
