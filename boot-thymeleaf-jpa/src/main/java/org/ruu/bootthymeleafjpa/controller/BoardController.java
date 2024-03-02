@@ -65,11 +65,37 @@ public class BoardController {
 
     }
 
-    @GetMapping("/read")
+    @GetMapping({"/read", "/modify"})
     public void read(Long bno, PageRequestDTO pageRequestDTO, Model model){
         BoardDTO boardDTO = boardService.readOne(bno);
 
         log.info(boardDTO);
         model.addAttribute("dto",boardDTO);
+    }
+
+    @PostMapping("/modify")
+    public String modify( PageRequestDTO pageRequestDTO,
+        @Valid BoardDTO boardDTO,
+        BindingResult bindingResult,
+        RedirectAttributes redirectAttributes){
+
+        log.info("modify ...." + boardDTO);
+        if(bindingResult.hasErrors()){
+            log.info("eroors....");
+
+            redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
+
+            redirectAttributes.addAttribute("bno", boardDTO.getBno());
+
+            return "redirect:/board/modify?"+ pageRequestDTO.getLink();
+
+        }
+        boardService.modify(boardDTO);
+
+        redirectAttributes.addFlashAttribute("result", "modified");
+
+        redirectAttributes.addAttribute("bno", boardDTO.getBno());
+
+        return "redirect:/board/read";
     }
 }
