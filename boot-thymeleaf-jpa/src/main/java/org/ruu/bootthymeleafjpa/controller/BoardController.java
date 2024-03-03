@@ -1,5 +1,7 @@
 package org.ruu.bootthymeleafjpa.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -18,12 +20,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 @RequestMapping("/board")
 @Log4j2
+@Tag(name = "BoardController")
 @RequiredArgsConstructor
 public class BoardController {
 
     private final BoardService boardService;
 
     @GetMapping("/list")
+    @Operation(summary = "리스트")
     public void list(
         PageRequestDTO pageRequestDTO,
         Model model) {
@@ -42,6 +46,7 @@ public class BoardController {
         return "board/register";
     }
 
+    @Operation(summary = "저장")
     @PostMapping("/register")
     public String registerPost(
         @Valid BoardDTO boardDTO,
