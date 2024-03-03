@@ -77,7 +77,7 @@ public class BoardController {
         log.info(boardDTO);
         model.addAttribute("dto",boardDTO);
     }
-
+    @Operation(summary = "수정")
     @PostMapping("/modify")
     public String modify( PageRequestDTO pageRequestDTO,
         @Valid BoardDTO boardDTO,
@@ -103,7 +103,7 @@ public class BoardController {
 
         return "redirect:/board/read";
     }
-
+    @Operation(summary = "삭제")
     @PostMapping("/remove")
     public String remove(Long bno,
         RedirectAttributes redirectAttributes){
