@@ -6,6 +6,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Board read</title>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
 <div layout:fragment="content">
@@ -61,7 +62,153 @@
       </div><!--end card -->
     </div><!--end col -->
   </div><!--end row -->
+  <div class="row mt-3">
+    <div class="col-md-12">
+      <div class="my-4">
+        <button cLass="btn btn-info addReplyBtn">ADD REPLY</button>
+      </div>
+      <ul class="list-group replyList">
+      </ul>
+    </div>
+  </div>
+  <div cLass="row mt-3">
+    <div class="col">
+      <ul class="pagination replyPaging">
+      </ul>
+    </div>
+  </div>
+  <script src="/js/reply.js"></script>
+
+  <div class="modal registerModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Register Reply</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"
+                  aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="input-group mb-3">
+            <span class="input-group-text">RepLy Text</span>
+            <input type="text" class="form-control replyText" >
+          </div>
+          <div class="input-group mb-3">
+            <span class="input-group-text">Replyer</span>
+            <input type="text" class="form-control replyer" >
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary registerBtn">Register</button>
+          <button type="button" class="btn btn-outline-dark closeRegisterBtn" >Close</button>
+        </div>
+      </div>
+    </div>
+  </div><!--end modal -->
+
 </div>
 
+<script layout:fragment="script" th:inline="javascript">
+
+  const bno = [[${dto.bno}]]
+
+  //reply
+  const replyList = document.querySelector('.replyList');
+  const replyPaging = document.querySelector('.replyPaging');
+
+  //modal
+  const registerModal = new bootstrap.Modal(document.querySelector(".registerModal"))
+  const registerBtn = document.querySelector(".registerBtn")
+  const replyText = document.querySelector(".replyText")
+  const replyer = document.querySelector(".replyer")
+  const colseRegisterBtn = document.querySelector(".closeRegisterBtn")
+
+  document.querySelector(".addReplyBtn").addEventListener("click", evt => {
+    registerModal.show()
+  },false)
+
+  colseRegisterBtn.addEventListener("click", evt => {
+    registerModal.hide()
+  },false)
+
+  registerBtn.addEventListener("click", function(e){
+  const replyObj = {
+    bno:bno,
+    replyText:replyText.value,
+    replyer:replyer.value}
+
+    addReply(replyObj).then(result => {
+    alert(result.rno)
+    registerModal.hide()
+    replyText.value = ''
+    replyer.value =''
+    printReplies(1, 10, true) //댓글목록갱신
+  }).catch(e => {
+    alert("Exception")
+  })
+  }, false)
+
+
+  function printList(dtoList){
+    let str = '';
+
+    if(dtoList && dtoList.length > 0){
+      dtoList.forEach(dto => {
+        str += `<li class="list-group-item d-flex replyItem">
+                  <span class="col-2">${dto.rno}</span>
+                  <span class="col-6" data-rno=${dto.rno}>${dto.replyText}</span>
+                  <span class="col-2">${dto.replyer}</span>
+                  <span class="col-2">${dto.regDate}</span>
+                </li>`
+      }, this)
+    }
+    replyList.innerHTML = str;
+  }
+
+  function printPages(data){
+    let pageStr = '';
+
+    if(data.prev){
+      pageStr += `<li class="page-item"><a class="page-item ${i == data.page ? 'active' : ''}" data-page="${data.start - 1}">PREV</a></li>`
+    }
+
+    for(let i = data.start; i<= data.end; i++){
+      pageStr += `<li class="page-item"><a class="page-link" data-page="${i}">${i}</a></li>`
+    }
+
+    if(data.next){
+      pageStr += `<li class="page-item"><a class="page-item  data-page="${data.end + 1}">NEXT</a></li>`
+    }
+    replyPaging.innerHTML = pageStr;
+  }
+  //show reply List
+  function printReplies(page,size,goLast){
+    getList({bno, page, size, goLast}).then(data => {
+      printList(data.dtoList)
+      printPages(data)
+    }).catch(e =>{
+      console.error(e);
+    })
+  }
+
+  //pagination
+  let page = 1
+  let size = 10
+
+  replyPaging.addEventListener("click", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const target = e.target
+
+    if(!target || target.tagName != 'A'){
+      return
+    }
+    const pageNum = target.getAttribute("data-page");
+    page = pageNum;
+    printReplies(page,size);
+  }, false)
+
+  printReplies(1,10);
+</script>
 </body>
 </html>
