@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.ruu.bootthymeleafjpa.dto.BoardDTO;
+import org.ruu.bootthymeleafjpa.dto.BoardListReplyCountDTO;
 import org.ruu.bootthymeleafjpa.dto.PageRequestDTO;
 import org.ruu.bootthymeleafjpa.dto.PageResponseDTO;
 import org.ruu.bootthymeleafjpa.service.BoardService;
@@ -33,8 +34,8 @@ public class BoardController {
         Model model) {
 
         log.info("List에 진입");
-        PageResponseDTO<BoardDTO> responseDTO = boardService.list(pageRequestDTO);
-
+        //PageResponseDTO<BoardDTO> responseDTO = boardService.list(pageRequestDTO);
+        PageResponseDTO<BoardListReplyCountDTO> responseDTO = boardService.listWithReplyCount(pageRequestDTO);
         log.info(responseDTO);
 
         model.addAttribute("responseDTO", responseDTO);

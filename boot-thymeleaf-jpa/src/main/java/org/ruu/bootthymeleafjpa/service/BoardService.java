@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.ruu.bootthymeleafjpa.domain.Board;
 import org.ruu.bootthymeleafjpa.dto.BoardDTO;
+import org.ruu.bootthymeleafjpa.dto.BoardListReplyCountDTO;
 import org.ruu.bootthymeleafjpa.dto.PageRequestDTO;
 import org.ruu.bootthymeleafjpa.dto.PageResponseDTO;
 import org.ruu.bootthymeleafjpa.exception.NotFoundPost;
@@ -80,6 +81,20 @@ public class BoardService {
             .pageRequestDTO(pageRequestDTO)
             .dtoList(dtoList)
             .total((int)result.getTotalElements())
+            .build();
+    }
+
+    public PageResponseDTO<BoardListReplyCountDTO> listWithReplyCount(PageRequestDTO pageRequestDTO){
+        String[] types = pageRequestDTO.getTypes();
+        String keyword = pageRequestDTO.getKeyword();
+        Pageable pageable = pageRequestDTO.getPageable("bno");
+
+        Page<BoardListReplyCountDTO> result = boardRepository.searchWithReplyCount(types,keyword,pageable);
+
+        return PageResponseDTO.<BoardListReplyCountDTO>withAll()
+            .pageRequestDTO(pageRequestDTO)
+            .dtoList(result.getContent())
+            .total((int) result.getTotalElements())
             .build();
     }
 }
