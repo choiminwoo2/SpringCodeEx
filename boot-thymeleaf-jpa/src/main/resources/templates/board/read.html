@@ -105,6 +105,29 @@
     </div>
   </div><!--end modal -->
 
+  <div class="modal modifyModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title replyHeader"></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"
+                  aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="input-group mb-3">
+            <span class="input-group-text">Reply Text</span>
+            <input type="text" class="form-control modifyText" >
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary modifyBtn">MODIFY</button>
+          <button type="button" class="btn btn-danger removeBtn">REMOVE</button>
+          <button type="button" class="btn btn-outline-dark closeModifyBtn" >Close</button>
+        </div>
+      </div>
+    </div>
+  </div><!--end modal -->
+
 </div>
 
 <script layout:fragment="script" th:inline="javascript">
@@ -115,12 +138,21 @@
   const replyList = document.querySelector('.replyList');
   const replyPaging = document.querySelector('.replyPaging');
 
-  //modal
+  //modal register
   const registerModal = new bootstrap.Modal(document.querySelector(".registerModal"))
   const registerBtn = document.querySelector(".registerBtn")
   const replyText = document.querySelector(".replyText")
   const replyer = document.querySelector(".replyer")
   const colseRegisterBtn = document.querySelector(".closeRegisterBtn")
+
+  //modal update
+  const modifyModal = new bootstrap.Modal(document.querySelector(".modifyModal"))
+  const modifyText = document.querySelector(".modifyText")
+  const closeModifyBtn = document.querySelector(".closeModifyBtn")
+  const modifyBtn = document.querySelector(".modifyBtn")
+  const removeBtn = document.querySelector(".removeBtn")
+  const replyHeader = document.querySelector(".replyHeader")
+
 
   document.querySelector(".addReplyBtn").addEventListener("click", evt => {
     registerModal.show()
@@ -129,7 +161,7 @@
   colseRegisterBtn.addEventListener("click", evt => {
     registerModal.hide()
   },false)
-
+  //추가
   registerBtn.addEventListener("click", function(e){
   const replyObj = {
     bno:bno,
@@ -146,7 +178,6 @@
     alert("Exception")
   })
   }, false)
-
 
   function printList(dtoList){
     let str = '';
@@ -168,15 +199,15 @@
     let pageStr = '';
 
     if(data.prev){
-      pageStr += `<li class="page-item"><a class="page-item ${i == data.page ? 'active' : ''}" data-page="${data.start - 1}">PREV</a></li>`
+      pageStr += `<li class="page-item"><a class="page-link"  data-page="${data.start - 1}">PREV</a></li>`
     }
 
     for(let i = data.start; i<= data.end; i++){
-      pageStr += `<li class="page-item"><a class="page-link" data-page="${i}">${i}</a></li>`
+      pageStr += `<li class="page-item"><a class="page-link ${i == data.page ? 'active' : ''}"" data-page="${i}">${i}</a></li>`
     }
 
     if(data.next){
-      pageStr += `<li class="page-item"><a class="page-item  data-page="${data.end + 1}">NEXT</a></li>`
+      pageStr += `<li class="page-item"><a class="page-link"  data-page="${data.end + 1}">NEXT</a></li>`
     }
     replyPaging.innerHTML = pageStr;
   }
@@ -203,11 +234,73 @@
     if(!target || target.tagName != 'A'){
       return
     }
+    console.log('data-pages: is' +target.getAttribute("data-page"))
     const pageNum = target.getAttribute("data-page");
     page = pageNum;
     printReplies(page,size);
   }, false)
 
+
+  //update
+  replyList.addEventListener("click",evt => {
+    evt.preventDefault();
+    evt.stopPropagation();
+
+    const target = evt.target;
+    if(!target || target.tagName != 'SPAN'){
+      return;
+    }
+
+    const rno = target.getAttribute("data-rno");
+
+    if(!rno){
+      return
+    }
+
+    getReply(rno).then(reply => {
+      console.log(reply)
+      replyHeader.innerHTML = reply.rno
+      modifyText.value = reply.replyText
+      modifyModal.show()
+    }).catch(e => alert('error'))
+  }, false)
+  // update modal close
+  modifyBtn.addEventListener("click", evt => {
+    const replyObj = {
+      bno : bno,
+      rno : replyHeader.innerHTML,
+      replyText: modifyText.value
+    }
+
+    modify(replyObj).then(result => {
+      alert(result.rno+'댓글이 수정되었습니다.')
+      replyText.value = '';
+      modifyModal.hide()
+      printReplies(page, size)
+    }).catch(e => {
+      console.log(e)
+    }, false)
+  })
+
+  closeModifyBtn.addEventListener("click", evt => {
+    modifyModal.hide()
+  }, false)
+
+  //삭제
+  removeBtn.addEventListener("click", evt => {
+    evt.preventDefault();
+    evt.stopPropagation();
+
+    removeReply(replyHeader.innerHTML).then(result => {
+      alert(result.rno + ' 댓글이 삭제되었습니다.')
+      replyText.value = ''
+      modifyModal.hide()
+
+      page = 1
+
+      printReplies(page, size)
+    }).catch(e => console.log(e))
+  }, false)
   printReplies(1,10);
 </script>
 </body>
