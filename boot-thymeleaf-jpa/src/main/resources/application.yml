@@ -16,8 +16,23 @@ spring:
     show-sql: true
   thymeleaf:
     prefix: classpath:/templates/
+  servlet:
+    multipart:
+      enabled: true
+      location: C:\\upload
+      max-request-size: 30MB
+      max-file-size: 10MB
+
+org:
+  ruu:
+    bootthymeleafjpa:
+      upload:
+        path: C:\\upload
+
 
 logging:
   level:
     org.ruu.bootthymeleafjpa: info
     org.ruu: debug
+
+
