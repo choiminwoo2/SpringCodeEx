@@ -11,6 +11,8 @@ build/
 # Avoid ignore Gradle wrappper properties
 !gradle-wrapper.properties
 
+target/
+
 ### 감추고싶은 프로퍼티 ###
 **/property/**
 
