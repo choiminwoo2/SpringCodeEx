@@ -6,10 +6,11 @@ import java.util.NoSuchElementException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.ruu.bootthymeleafjpa.domain.Board;
-import org.ruu.bootthymeleafjpa.dto.BoardDTO;
-import org.ruu.bootthymeleafjpa.dto.BoardListReplyCountDTO;
+import org.ruu.bootthymeleafjpa.dto.board.BoardDTO;
+import org.ruu.bootthymeleafjpa.dto.board.BoardListReplyCountDTO;
 import org.ruu.bootthymeleafjpa.dto.PageRequestDTO;
 import org.ruu.bootthymeleafjpa.dto.PageResponseDTO;
+import org.ruu.bootthymeleafjpa.dto.board.FindAllBoardDTO;
 import org.ruu.bootthymeleafjpa.exception.NotFoundPost;
 import org.ruu.bootthymeleafjpa.repository.BoardRepository;
 import org.springframework.data.domain.Page;
@@ -26,32 +27,32 @@ public class BoardService {
 
     public Long register(BoardDTO boardDTO) {
 
-        Board board = Board.builder()
-            .writer(boardDTO.getWriter())
-            .content(boardDTO.getContent())
-            .title(boardDTO.getTitle())
-            .build();
+        Board board = BoardDTO.toEntity(boardDTO);
         return boardRepository.save(board).getBno();
     }
 
     public BoardDTO readOne(Long bno) throws NoSuchElementException {
 
-        Board board = boardRepository.findById(bno)
+        Board board = boardRepository.findByIdWithImage(bno)
             .orElseThrow(() -> new NotFoundPost(bno));
 
-        return BoardDTO.builder()
-            .bno(board.getBno())
-            .writer(board.getWriter())
-            .content(board.getContent())
-            .title(board.getTitle())
-            .modDate(board.getModDate())
-            .regDate(board.getRegDate())
-            .build();
+        return BoardDTO.from(board);
     }
 
     public void modify(BoardDTO boardDTO){
         Board board = boardRepository.findById(boardDTO.getBno()).orElseThrow();
         board.change(boardDTO.getTitle(), boardDTO.getContent());
+
+        //첨부파일 처리
+        board.clearImages();
+
+        if(boardDTO.getFileNames() != null){
+            for(String fileName: boardDTO.getFileNames()){
+                String[] arr = fileName.split("_");
+                board.addImage(arr[0], arr[1]);
+            }
+        }
+
         boardRepository.save(board);
     }
 
@@ -95,6 +96,20 @@ public class BoardService {
             .pageRequestDTO(pageRequestDTO)
             .dtoList(result.getContent())
             .total((int) result.getTotalElements())
+            .build();
+    }
+
+    public PageResponseDTO<FindAllBoardDTO> listWithAll(PageRequestDTO pageRequestDTO){
+        String[] types = pageRequestDTO.getTypes();
+        String keyword = pageRequestDTO.getKeyword();
+        Pageable pageable = pageRequestDTO.getPageable("bno");
+
+        Page<FindAllBoardDTO> result = boardRepository.searchWithAllOrNull(types, keyword, pageable);
+
+        return PageResponseDTO.<FindAllBoardDTO>withAll()
+            .pageRequestDTO(pageRequestDTO)
+            .dtoList(result.getContent())
+            .total((int)result.getTotalElements())
             .build();
     }
 }

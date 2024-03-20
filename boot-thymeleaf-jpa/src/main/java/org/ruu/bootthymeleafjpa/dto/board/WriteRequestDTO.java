@@ -1,4 +1,4 @@
-package org.ruu.bootthymeleafjpa.dto;
+package org.ruu.bootthymeleafjpa.dto.board;
 
 import lombok.Builder;
 import lombok.Data;

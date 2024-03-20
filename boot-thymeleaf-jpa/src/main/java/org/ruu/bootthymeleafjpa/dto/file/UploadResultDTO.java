@@ -1,4 +1,4 @@
-package org.ruu.bootthymeleafjpa.dto;
+package org.ruu.bootthymeleafjpa.dto.file;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
