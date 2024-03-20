@@ -1,13 +1,16 @@
 package org.ruu.bootthymeleafjpa.repository.search;
 
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPQLQuery;
 import java.util.List;
 import org.ruu.bootthymeleafjpa.domain.Board;
 import org.ruu.bootthymeleafjpa.domain.QBoard;
 import org.ruu.bootthymeleafjpa.domain.QReply;
-import org.ruu.bootthymeleafjpa.dto.BoardListReplyCountDTO;
+import org.ruu.bootthymeleafjpa.dto.board.BoardImageDTO;
+import org.ruu.bootthymeleafjpa.dto.board.BoardListReplyCountDTO;
+import org.ruu.bootthymeleafjpa.dto.board.FindAllBoardDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -101,4 +104,65 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
         return new PageImpl<>(dtoList, pageable, count);
 
     }
+
+    @Override
+    public Page<FindAllBoardDTO> searchWithAllOrNull(String[] types, String keyword, Pageable pageable) {
+        QBoard qBoard = QBoard.board;
+        QReply qReply = QReply.reply;
+
+        JPQLQuery<Board> boardJPQLQuery = from(qBoard);
+        boardJPQLQuery.leftJoin(qReply).on(qReply.board.eq(qBoard));
+
+        if( (types != null && types.length > 0) && keyword != null){
+            BooleanBuilder booleanBuilder = new BooleanBuilder();
+
+            for(String type: types){
+                switch (type){
+                    case "t" -> booleanBuilder.or(qBoard.title.contains(keyword));
+                    case "c" -> booleanBuilder.or(qBoard.content.contains(keyword));
+                    case "w" -> booleanBuilder.or(qBoard.writer.contains(keyword));
+                }
+            }
+            boardJPQLQuery.where(booleanBuilder);
+        }
+
+        boardJPQLQuery.groupBy(qBoard);
+
+        getQuerydsl().applyPagination(pageable, boardJPQLQuery);
+
+
+        JPQLQuery<Tuple> tupleJPQLQuery = boardJPQLQuery.select(qBoard, qReply.countDistinct());
+
+        List<Tuple> tuples = tupleJPQLQuery.fetch();
+
+        List<FindAllBoardDTO> dtoList = tuples.stream().map(tuple -> {
+
+            Board board = tuple.get(qBoard);
+            long replyCount = tuple.get(1, Long.class);
+
+            FindAllBoardDTO dto = FindAllBoardDTO.builder()
+                .bno(board.getBno())
+                .writer(board.getWriter())
+                .title(board.getTitle())
+                .regDate(board.getRegDate())
+                .replyCount(replyCount)
+                .build();
+
+            List<BoardImageDTO> imageDTOS = board.getImageSet().stream().sorted()
+                .map(BoardImageDTO::of)
+                .toList();
+
+            dto.setBoardImages(imageDTOS);
+
+            return dto;
+        }).toList();
+        long totalCount = boardJPQLQuery.fetchCount();
+
+        return new PageImpl<>(dtoList, pageable, totalCount);
+    }
+
+
+
+
+
 }

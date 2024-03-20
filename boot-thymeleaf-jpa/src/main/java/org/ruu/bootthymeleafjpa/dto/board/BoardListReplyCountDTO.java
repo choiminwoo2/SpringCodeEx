@@ -1,4 +1,4 @@
-package org.ruu.bootthymeleafjpa.dto;
+package org.ruu.bootthymeleafjpa.dto.board;
 
 import java.time.LocalDateTime;
 import lombok.Data;

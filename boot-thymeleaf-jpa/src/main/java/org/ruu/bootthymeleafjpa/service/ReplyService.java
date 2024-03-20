@@ -7,7 +7,7 @@ import lombok.extern.log4j.Log4j2;
 import org.ruu.bootthymeleafjpa.domain.Reply;
 import org.ruu.bootthymeleafjpa.dto.PageRequestDTO;
 import org.ruu.bootthymeleafjpa.dto.PageResponseDTO;
-import org.ruu.bootthymeleafjpa.dto.ReplyDTO;
+import org.ruu.bootthymeleafjpa.dto.reply.ReplyDTO;
 import org.ruu.bootthymeleafjpa.repository.ReplyRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

@@ -1,6 +1,7 @@
 package org.ruu.bootthymeleafjpa.domain;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
@@ -9,12 +10,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-@Builder
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(exclude = "board")
 @Entity
+@Builder
 public class BoardImage implements Comparable<BoardImage>{
 
     @Id
@@ -24,7 +25,7 @@ public class BoardImage implements Comparable<BoardImage>{
 
     private int ord;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Board board;
 
     @Override
