@@ -112,9 +112,8 @@ public class UploadController {
             removed = resource.getFile().delete();
 
             if(contentType.startsWith("image")){
-                File thumbnailFile = new File(uploadPath + File.separator +"_+" + fileName);
-
-                thumbnailFile.delete();
+                File thumbnailFile = new File(uploadPath + File.separator +"s_" + fileName);
+                removed = thumbnailFile.delete();
             }
         }catch (IOException e){
             log.error(e.getMessage());
