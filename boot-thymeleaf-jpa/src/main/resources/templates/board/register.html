@@ -40,7 +40,7 @@
 
               <div class="my-4">
                 <div class="float-end">
-                  <button type="submit" class="btn btn-primary">Submit</button>
+                  <button type="submit" class="btn btn-primary submitBtn">Submit</button>
                   <button type="submit" class="btn btn-secondary">Reset</button>
                 </div>
               </div>
@@ -173,6 +173,30 @@
       uploadModal.hide();
 
     })
+
+    //서버에 제출
+    document.querySelector('.submitBtn').addEventListener('click', (event) => {
+      if(event.target !== event.currentTarget){
+        return;
+      }
+      event.preventDefault();
+
+      const target = document.querySelector(".uploadHidden");
+
+      const uploadFiles = uploadResult.querySelectorAll("img")
+
+      let str = '';
+
+      for(let i = 0; i < uploadFiles.length; i++){
+        const uploadFile = uploadFiles[i];
+        const imgLink = uploadFile.dataset.src;
+
+        str += `<input type='hidden' name='fileNames' value="${imgLink}" >`;
+        target.innerHTML = str;
+
+      }
+      document.querySelector('form').submit();
+    }, false)
   </script>
 </body>
 </html>
