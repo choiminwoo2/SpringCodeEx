@@ -28,6 +28,8 @@ public class BoardService {
     public Long register(BoardDTO boardDTO) {
 
         Board board = BoardDTO.toEntity(boardDTO);
+        log.info("===================BoardEntity===================");
+        log.info(board);
         return boardRepository.save(board).getBno();
     }
 
@@ -85,19 +87,19 @@ public class BoardService {
             .build();
     }
 
-    public PageResponseDTO<BoardListReplyCountDTO> listWithReplyCount(PageRequestDTO pageRequestDTO){
-        String[] types = pageRequestDTO.getTypes();
-        String keyword = pageRequestDTO.getKeyword();
-        Pageable pageable = pageRequestDTO.getPageable("bno");
-
-        Page<BoardListReplyCountDTO> result = boardRepository.searchWithReplyCount(types,keyword,pageable);
-
-        return PageResponseDTO.<BoardListReplyCountDTO>withAll()
-            .pageRequestDTO(pageRequestDTO)
-            .dtoList(result.getContent())
-            .total((int) result.getTotalElements())
-            .build();
-    }
+//    public PageResponseDTO<BoardListReplyCountDTO> listWithReplyCount(PageRequestDTO pageRequestDTO){
+//        String[] types = pageRequestDTO.getTypes();
+//        String keyword = pageRequestDTO.getKeyword();
+//        Pageable pageable = pageRequestDTO.getPageable("bno");
+//
+//        Page<BoardListReplyCountDTO> result = boardRepository.searchWithReplyCount(types,keyword,pageable);
+//
+//        return PageResponseDTO.<BoardListReplyCountDTO>withAll()
+//            .pageRequestDTO(pageRequestDTO)
+//            .dtoList(result.getContent())
+//            .total((int) result.getTotalElements())
+//            .build();
+//    }
 
     public PageResponseDTO<FindAllBoardDTO> listWithAll(PageRequestDTO pageRequestDTO){
         String[] types = pageRequestDTO.getTypes();

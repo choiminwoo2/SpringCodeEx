@@ -9,6 +9,7 @@ import org.ruu.bootthymeleafjpa.dto.board.BoardDTO;
 import org.ruu.bootthymeleafjpa.dto.board.BoardListReplyCountDTO;
 import org.ruu.bootthymeleafjpa.dto.PageRequestDTO;
 import org.ruu.bootthymeleafjpa.dto.PageResponseDTO;
+import org.ruu.bootthymeleafjpa.dto.board.FindAllBoardDTO;
 import org.ruu.bootthymeleafjpa.service.BoardService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,8 +35,7 @@ public class BoardController {
         Model model) {
 
         log.info("List에 진입");
-        //PageResponseDTO<BoardDTO> responseDTO = boardService.list(pageRequestDTO);
-        PageResponseDTO<BoardListReplyCountDTO> responseDTO = boardService.listWithReplyCount(pageRequestDTO);
+        PageResponseDTO<FindAllBoardDTO> responseDTO = boardService.listWithAll(pageRequestDTO);
         log.info(responseDTO);
 
         model.addAttribute("responseDTO", responseDTO);
