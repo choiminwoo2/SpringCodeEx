@@ -84,7 +84,8 @@ public class UploadController {
     @Operation(summary = "썸네일 확인", description = "GET방식으로 첨부 파일 조회")
     @GetMapping("/view/{fileName}")
     public ResponseEntity<Resource> viewFileGet(@PathVariable String fileName){
-        Resource resource = new FileSystemResource(uploadPath+ File.separator + fileName);
+        String url = uploadPath+ File.separator + fileName;
+        Resource resource = new FileSystemResource(url);
         String resourceName = resource.getFilename();
         HttpHeaders headers = new HttpHeaders();
 
