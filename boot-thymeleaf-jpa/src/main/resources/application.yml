@@ -35,5 +35,6 @@ logging:
   level:
     org.ruu.bootthymeleafjpa: info
     org.ruu: debug
+    org.springframework.security: trace
 
 
