@@ -83,6 +83,7 @@ public class BoardController {
 
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping({"/read", "/modify"})
     public void read(Long bno, PageRequestDTO pageRequestDTO, Model model){
         BoardDTO boardDTO = boardService.readOne(bno);
@@ -91,6 +92,7 @@ public class BoardController {
         model.addAttribute("dto",boardDTO);
     }
     @Operation(summary = "수정")
+    @PreAuthorize("principal.username == #boardDTO.writer")
     @PostMapping("/modify")
     public String modify( PageRequestDTO pageRequestDTO,
         @Valid BoardDTO boardDTO,
@@ -117,6 +119,7 @@ public class BoardController {
         return "redirect:/board/read";
     }
     @Operation(summary = "삭제")
+    @PreAuthorize("principal.username == #boardDTO.writer")
     @PostMapping("/remove")
     public String remove(BoardDTO boardDTO,
         RedirectAttributes redirectAttributes) throws IOException {
