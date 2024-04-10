@@ -25,6 +25,7 @@ public class BoardService {
 
     private final BoardRepository boardRepository;
 
+
     public Long register(BoardDTO boardDTO) {
 
         Board board = BoardDTO.toEntity(boardDTO);
