@@ -18,6 +18,7 @@ import org.ruu.bootthymeleafjpa.service.BoardService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -52,6 +53,7 @@ public class BoardController {
 
     }
 
+    @PreAuthorize("hasRole('USER')")
     @GetMapping("/register")
     public String registerGet(){
         return "board/register";
@@ -81,6 +83,7 @@ public class BoardController {
 
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping({"/read", "/modify"})
     public void read(Long bno, PageRequestDTO pageRequestDTO, Model model){
         BoardDTO boardDTO = boardService.readOne(bno);
@@ -89,6 +92,7 @@ public class BoardController {
         model.addAttribute("dto",boardDTO);
     }
     @Operation(summary = "수정")
+    @PreAuthorize("principal.username == #boardDTO.writer")
     @PostMapping("/modify")
     public String modify( PageRequestDTO pageRequestDTO,
         @Valid BoardDTO boardDTO,
@@ -115,6 +119,7 @@ public class BoardController {
         return "redirect:/board/read";
     }
     @Operation(summary = "삭제")
+    @PreAuthorize("principal.username == #boardDTO.writer")
     @PostMapping("/remove")
     public String remove(BoardDTO boardDTO,
         RedirectAttributes redirectAttributes) throws IOException {

@@ -17,6 +17,7 @@ spring:
     show-sql: true
   thymeleaf:
     prefix: classpath:/templates/
+    suffix: .html
   servlet:
     multipart:
       enabled: true
@@ -36,5 +37,9 @@ logging:
     org.ruu.bootthymeleafjpa: info
     org.ruu: debug
     org.springframework.security: trace
+
+
+
+
 
 

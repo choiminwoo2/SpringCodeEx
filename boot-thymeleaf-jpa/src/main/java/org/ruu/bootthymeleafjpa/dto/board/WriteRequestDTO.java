@@ -5,7 +5,6 @@ import lombok.Data;
 
 @Builder
 @Data
-
 public class WriteRequestDTO {
 
     private String title;
