@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 @Log4j2
 public class DataSourceTest {
+
     @Autowired
     DataSource dataSource;
 
